@@ -1,3 +1,6 @@
+body{
+  margin: 0;
+}
 .margin{
   margin: 100px;
   font-size: 24px;
@@ -10,3 +13,12 @@
 .table td{
   padding: 10px 0;
 }
+.menu-link{
+  background-color: #253a46;
+  padding: 20px;
+  font-size: 20px;
+}
+.link{
+  color: #fff;
+  padding-right: 50px;
+  }
