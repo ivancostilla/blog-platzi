@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import axios from "axios";
 
-function App() {
+class App extends Component {
+
+  constructor(){
+    super();
+    this.state = {
+      usuarios: []
+    }
+  }
+
+  async componentDidMount(){
+    const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+    console.log(res.data)
+    this.setState({
+      usuarios: res.data
+    })
+  }
+  
+  ponerFilas = ()=>(
+
+    this.state.usuarios.map(usuario =>(
+      <tr>
+        <td>
+          {usuario.name}
+        </td>
+        <td>
+          {usuario.email}
+        </td>
+        <td>
+          {usuario.website}
+        </td>
+      </tr>
+    ))
+
+  )
+
+ render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <div className="margin">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Enlace</th>
+          </tr>
+        </thead>
+        <tbody>
+          { this.ponerFilas() }
+        </tbody>
+      </table>
+    </div>  
+     )
+ }
 }
 
 export default App;
+
