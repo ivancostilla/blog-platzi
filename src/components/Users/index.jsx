@@ -1,61 +1,56 @@
 import React, { Component } from 'react';
-import axios from "axios";
+import { connect } from 'react-redux';
+import * as usuariosActions from '../../Redux/actions/usuariosActions';
+class Usuarios extends Component {
 
-class Users extends Component {
+	componentDidMount() {
+		this.props.traerTodos();
+	}
 
-  constructor(){
-    super();
-    this.state = {
-      usuarios: []
-    }
-  }
+    ponerFilas = () => this.props.usuarios.map((usuario) => (
+        React.Children.toArray(
+    	    <tr>
+    	    	<td>
+    	    		{ usuario.name }
+    	    	</td>
+    	    	<td>
+    	    		{ usuario.email }
+    	    	</td>
+    	    	<td>
+    	    		{ usuario.website }
+    	    	</td>
+    	    </tr>
+        )
+    ));
 
-  async componentDidMount(){
-    const res = await axios.get('https://jsonplaceholder.typicode.com/users');
-    this.setState({
-      usuarios: res.data
-    })
-  }
-  
-  ponerFilas = ()=>(
+	render() {
+		return (
+			<div>
+				<table className="table">
+					<thead>
+						<tr>
+							<th>
+								Nombre
+							</th>
+							<th>
+								Correo
+							</th>
+							<th>
+								Enlace
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{ this.ponerFilas() }
+					</tbody>
+				</table>
+			</div>
+		)
+	}
+};
 
-    React.Children.toArray(
-      this.state.usuarios.map(usuario =>(
-        <tr>
-          <td>
-            {usuario.name}
-          </td>
-          <td>
-            {usuario.email}
-          </td>
-          <td>
-            {usuario.website}
-          </td>
-        </tr>
-      ))
-    )
+const mapStateToProps = (reducers) => {
+	return reducers.usuariosReducer;
+};
 
-  )
-
- render(){
-  return (
-    <div className="margin">
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Enlace</th>
-          </tr>
-        </thead>
-        <tbody>
-          { this.ponerFilas() }
-        </tbody>
-      </table>
-    </div>  
-     )
- }
-}
-
-export default Users;
-
+export default connect(mapStateToProps, usuariosActions)(Usuarios);

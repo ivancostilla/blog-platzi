@@ -14,8 +14,10 @@ const App = () => {
 
     <BrowserRouter>
       <Menu />
-      <Route exact path="/" component={ Users }></Route>
-      <Route exact path="/" component={ Tareas }></Route>
+      <div className="margin">
+        <Route exact path="/" component={ Users }></Route>
+        <Route exact path="/tareas" component={ Tareas }></Route>
+      </div>
 
     </BrowserRouter>
 
