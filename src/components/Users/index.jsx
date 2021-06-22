@@ -10,7 +10,11 @@ class Usuarios extends Component {
 //2- error
 //3-exitoso
 	componentDidMount() {
-		this.props.traerTodos();
+		/*  evitar que recargue la pagina cuando entramos a las
+		 publicaciones y volvemos a usuarios*/
+		if (!this.props.usuarios.length){
+			this.props.traerTodos();
+		}
 	}
 
 	ponerContenido = () => {
