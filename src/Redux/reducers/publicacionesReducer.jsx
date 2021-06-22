@@ -14,15 +14,16 @@ export default (state = INICIAL_STATE, action) => {
             return {
                 ...state,
                 publicaciones: action.payload,
-                cargando: false
+                cargando: false,
+                error: ''
             };
         case CARGANDO:
             return {...state, cargando: true};
 
         case ERROR:
             return {...state,
-                 error: action.payload,
-                  cargando: false
+                error: action.payload,
+                cargando: false
             }
 
         default: return state;

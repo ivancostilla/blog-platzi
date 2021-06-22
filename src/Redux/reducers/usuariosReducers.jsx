@@ -13,16 +13,19 @@ export default (state = INICIAL_STATE, action) => {
         case TRAER_TODOS:
             return {
                 ...state,
-                 usuarios: action.payload,
-                cargando: false};
+                usuarios: action.payload,
+                cargando: false,
+                error: ''
+            };
 
         case CARGANDO:
             return {...state, cargando: true};
 
         case ERROR:
             return {...state,
-                 error: action.payload,
-                  cargando: false}
+                error: action.payload,
+                cargando: false
+            }
 
         default: return state;
     }

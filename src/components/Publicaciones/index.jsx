@@ -7,14 +7,15 @@ import * as publicacionesActions from '../../Redux/actions/publicacionesActions'
 /* destructuramos para modifica r el nombre de la funcion, ya que en
 los 2 actions que tenemos le pusimos el mismo nobre a la funcion */
 const {traerTodos: usuariosTraerTodos } = usuariosActions;
-const {traerTodos: publicacionesTraerTodos } = publicacionesActions;
+const {traerPorUsuario: publicacionesTraerPorUsuario } = publicacionesActions;
 
 class Publicaciones extends Component {
-    componentDidMount() {
+    async componentDidMount() {
         //al usar mas de 1 reduce hay que especificar a que reducer queremos entrar:
         if(!this.props.usuariosReducers.usuarios.length) {
-            this.props.usuariosTraerTodos();
+            await this.props.usuariosTraerTodos();
         }
+        this.props.publicacionesTraerPorUsuario(this.props.match.params.key)
     }
     render() {
         console.log(this.props)
@@ -38,7 +39,7 @@ const mapStateToProps = ({
 /* esto se hace cuando tenemos mas de 1 actions */
 const mapDispatchToProps = {
     usuariosTraerTodos,
-    publicacionesTraerTodos
+    publicacionesTraerPorUsuario
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Publicaciones);
