@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as usuariosActions from '../../Redux/actions/usuariosActions';
 import Spinner from '../General/Spinner';
-import Fatal from '../General/Fatal'
+import Fatal from '../General/Fatal';
+import Tabla from '../Tabla';
 class Usuarios extends Component {
 
 	componentDidMount() {
@@ -22,42 +23,12 @@ class Usuarios extends Component {
 		}
 
 		return (
-			<table className="table">
-				<thead>
-					<tr>
-						<th>
-							Nombre
-						</th>
-						<th>
-							Correo
-						</th>
-						<th>
-							Enlace
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{ this.ponerFilas() }
-				</tbody>
-			</table>
+			<>
+				<h1>Usuarios</h1>
+				<Tabla />
+			</>
 		)
 	}
-
-    ponerFilas = () => this.props.usuarios.map((usuario) => (
-        React.Children.toArray(
-    	    <tr>
-    	    	<td>
-    	    		{ usuario.name }
-    	    	</td>
-    	    	<td>
-    	    		{ usuario.email }
-    	    	</td>
-    	    	<td>
-    	    		{ usuario.website }
-    	    	</td>
-    	    </tr>
-        )
-    ));
 
 	render() {
 		return (
