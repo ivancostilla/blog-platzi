@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
-import { TRAER_TODOS, CARGANDO } from "../../types/usuariosTypes";
+import { TRAER_TODOS, CARGANDO, ERROR } from "../../types/usuariosTypes";
 
 const INICIAL_STATE = {
     usuarios: [],
-    cargando: false
+    cargando: false,
+    error: ""
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -17,6 +18,11 @@ export default (state = INICIAL_STATE, action) => {
 
         case CARGANDO:
             return {...state, cargando: true};
+
+        case ERROR:
+            return {...state,
+                 error: action.payload,
+                  cargando: false}
 
         default: return state;
     }

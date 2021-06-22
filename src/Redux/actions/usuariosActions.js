@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TRAER_TODOS, CARGANDO } from "../../types/usuariosTypes";
+import { TRAER_TODOS, CARGANDO, ERROR } from "../../types/usuariosTypes";
 /* 
 dispatch: es el que dispara la llamada
 y va acontactar al reducer paraq que haga el cambio de estado
@@ -16,6 +16,10 @@ export const traerTodos = () => async (dispatch) => {
 			payload: respuesta.data
 		})
 	} catch (error) {
-		console.log("Error: ", error.message)
+		console.log("Error: ", error.message);
+		dispatch({
+			type: ERROR,
+			payload: error.message,
+		})
 	}
 };
