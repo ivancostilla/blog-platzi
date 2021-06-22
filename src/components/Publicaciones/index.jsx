@@ -15,6 +15,7 @@ class Publicaciones extends Component {
         if(!this.props.usuariosReducers.usuarios.length) {
             await this.props.usuariosTraerTodos();
         }
+        //enviamos la key a la funcion para saber el id del usuario
         this.props.publicacionesTraerPorUsuario(this.props.match.params.key)
     }
     render() {
