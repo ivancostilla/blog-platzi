@@ -5,6 +5,7 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import Menu from './components/Menu';
+import Publicaciones from './components/Publicaciones';
 import Users from './components/Users';
 
 const Tareas = ()=>(
@@ -20,6 +21,7 @@ const App = () => {
       <div className="margin">
         <Route exact path="/" component={ Users }></Route>
         <Route exact path="/tareas" component={ Tareas }></Route>
+        <Route exact path="/publicaciones/:key" component={ Publicaciones }></Route>
       </div>
 
     </BrowserRouter>

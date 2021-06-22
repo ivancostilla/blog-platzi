@@ -5,7 +5,10 @@ import Spinner from '../General/Spinner';
 import Fatal from '../General/Fatal';
 import Tabla from '../Tabla';
 class Usuarios extends Component {
-
+//3 manejos de estados obligatorios de un proyecto
+//1-cargando
+//2- error
+//3-exitoso
 	componentDidMount() {
 		this.props.traerTodos();
 	}
@@ -31,6 +34,7 @@ class Usuarios extends Component {
 	}
 
 	render() {
+		console.log(this.props)
 		return (
 			<div>
 				{this.ponerContenido()}
@@ -40,7 +44,7 @@ class Usuarios extends Component {
 };
 
 const mapStateToProps = (reducers) => {
-	return reducers.usuariosReducer;
+	return reducers.usuariosReducers;
 };
 
 export default connect(mapStateToProps, usuariosActions)(Usuarios);
