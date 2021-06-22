@@ -1,3 +1,6 @@
+/* el componente se comunica con los actions, 
+que este se comiunica con los reducers y estos reducers
+ envian la info al componente, toda la info se almacena en el store */
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 

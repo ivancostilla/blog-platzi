@@ -1,14 +1,23 @@
 /* eslint-disable no-undef */
+import { TRAER_TODOS, CARGANDO } from "../../types/usuariosTypes";
+
 const INICIAL_STATE = {
-    usuarios: []
+    usuarios: [],
+    cargando: false
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = INICIAL_STATE, action) => {
     switch (action.type){
-        case 'traer_usuarios':
-            return {...state, usuarios: action.payload}
+        case TRAER_TODOS:
+            return {
+                ...state,
+                 usuarios: action.payload,
+                cargando: false};
 
-            default: return state;
+        case CARGANDO:
+            return {...state, cargando: true};
+
+        default: return state;
     }
 }
