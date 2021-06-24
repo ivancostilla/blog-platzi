@@ -9,7 +9,7 @@ import * as publicacionesActions from '../../Redux/actions/publicacionesActions'
 /* destructuramos para modifica r el nombre de la funcion, ya que en
 los 2 actions que tenemos le pusimos el mismo nobre a la funcion */
 const {traerTodos: usuariosTraerTodos } = usuariosActions;
-const {traerPorUsuario: publicacionesTraerPorUsuario } = publicacionesActions;
+const {traerPorUsuario: publicacionesTraerPorUsuario, abrirCerrar } = publicacionesActions;
 
 class Publicaciones extends Component {
     async componentDidMount() {
@@ -17,7 +17,6 @@ class Publicaciones extends Component {
             /* destructuracion para evitar lineas largas */
             /* evitar hacer destructuring en funciones que contengan estados
             ya que la info puede variar */
-            usuariosTraerTodos,
             publicacionesTraerPorUsuario,
             match: {params: { key } }
         } = this.props
@@ -33,6 +32,7 @@ class Publicaciones extends Component {
             publicacionesTraerPorUsuario(key)
         }
     }
+    //validamos que la info del usuario esté:
     ponerUsuario = () =>{
         const { 
             usuariosReducers,
@@ -47,14 +47,71 @@ class Publicaciones extends Component {
         }
         const nombre = usuariosReducers.usuarios[key].name;
         return (
-            <h1>Publicaciones de { nombre }</h1>
+            <h1 className="center">Publicaciones de { nombre }</h1>
         )
     }
+    
+
+    //validamos que la info del usuario sea la correcta:
+    ponerPublicaciones = () => {
+        const {
+            usuariosReducers,
+            usuariosReducers: { usuarios },
+            publicacionesReducer,
+            publicacionesReducer: { publicaciones },
+            match: { params: { key } }
+        } = this.props;
+
+        if (!usuarios.length) return;
+        if (usuariosReducers.error) return;
+
+        if (publicacionesReducer.cargando) {
+            return <Spinner/>
+        }
+
+        if (publicacionesReducer.error) {
+            return <Fatal mensaje={ publicacionesReducer.error } />
+        }
+
+        if (!publicaciones.length) return;
+
+        if (!('publicaciones_key' in usuarios[key])) return;
+
+        const { publicaciones_key } = usuarios[key];
+
+        return this.mostrarInfo(
+            publicaciones[publicaciones_key],
+            publicaciones_key
+        )
+    };
+
+    mostrarInfo = (publicaciones,pub_key) => (
+        React.Children.toArray(
+            publicaciones.map((publicacion, index) => (
+                <div
+                className="pub-titulo"
+                onClick={() => {this.props.abrirCerrar(pub_key, index)}}
+                >
+                    <h2>
+                    {index + 1}- { publicacion.title }
+                    </h2>
+                    <h3>
+                       { publicacion.body.charAt(0).toUpperCase() + publicacion.body.slice(1) }
+                    </h3>
+                    {
+                        (publicacion.abierto) ? 'abierto' : 'cerrado'
+                    }
+                </div>
+            ))
+        )
+    );
+    
     render() {
         console.log(this.props)
         return (
             <div>
                 { this.ponerUsuario() }
+                { this.ponerPublicaciones() }
             </div>
         )
     }
@@ -71,7 +128,8 @@ const mapStateToProps = ({
 /* esto se hace cuando tenemos mas de 1 actions */
 const mapDispatchToProps = {
     usuariosTraerTodos,
-    publicacionesTraerPorUsuario
+    publicacionesTraerPorUsuario,
+    abrirCerrar
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Publicaciones);

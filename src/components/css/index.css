@@ -28,3 +28,6 @@ body{
 .rojo{
   color: rgb(255, 0, 0);
 }
+.pub-titulo{
+  border-top: 1px solid #000;
+}

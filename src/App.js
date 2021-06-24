@@ -1,5 +1,5 @@
 /* el componente se comunica con los actions, 
-que este se comiunica con los reducers y estos reducers
+que este se comunica con los reducers y estos reducers
  envian la info al componente, toda la info se almacena en el store */
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -23,7 +23,6 @@ const App = () => {
         <Route exact path="/tareas" component={ Tareas }></Route>
         <Route exact path="/publicaciones/:key" component={ Publicaciones }></Route>
       </div>
-
     </BrowserRouter>
 
 )
