@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Spinner from '../General/Spinner';
 import Fatal from '../General/Fatal';
+import Comentarios from '../Comentarios';
 
 import * as usuariosActions from '../../Redux/actions/usuariosActions'
 import * as publicacionesActions from '../../Redux/actions/publicacionesActions'
@@ -9,7 +10,11 @@ import * as publicacionesActions from '../../Redux/actions/publicacionesActions'
 /* destructuramos para modifica r el nombre de la funcion, ya que en
 los 2 actions que tenemos le pusimos el mismo nobre a la funcion */
 const {traerTodos: usuariosTraerTodos } = usuariosActions;
-const {traerPorUsuario: publicacionesTraerPorUsuario, abrirCerrar } = publicacionesActions;
+const {
+    traerPorUsuario: publicacionesTraerPorUsuario,
+    abrirCerrar,
+    traerComentarios
+} = publicacionesActions;
 
 class Publicaciones extends Component {
     async componentDidMount() {
@@ -90,7 +95,7 @@ class Publicaciones extends Component {
             publicaciones.map((publicacion, index) => (
                 <div
                 className="pub-titulo"
-                onClick={() => {this.props.abrirCerrar(pub_key, index)}}
+                onClick={() => {this.mostrarComentarios(pub_key, index, publicacion.comentarios)}}
                 >
                     <h2>
                     {index + 1}- { publicacion.title }
@@ -99,12 +104,19 @@ class Publicaciones extends Component {
                        { publicacion.body.charAt(0).toUpperCase() + publicacion.body.slice(1) }
                     </h3>
                     {
-                        (publicacion.abierto) ? 'abierto' : 'cerrado'
+                        (publicacion.abierto) ? <Comentarios comentarios={publicacion.comentarios} /> : ''
                     }
                 </div>
             ))
         )
     );
+
+    mostrarComentarios = (pub_key, index, comentarios) => {
+        this.props.abrirCerrar(pub_key,index);
+        if(!comentarios.length) {
+            this.props.traerComentarios(pub_key, index)
+        };
+    }
     
     render() {
         console.log(this.props)
@@ -129,7 +141,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
     usuariosTraerTodos,
     publicacionesTraerPorUsuario,
-    abrirCerrar
+    abrirCerrar,
+    traerComentarios
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Publicaciones);
