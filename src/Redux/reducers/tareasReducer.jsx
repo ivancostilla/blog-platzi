@@ -13,7 +13,8 @@ const INITIAL_STATE = {
     cargando: false,
     error: "",
     usuario_id: "",
-    titulo: ""
+    titulo: "",
+    regresar: false
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -24,7 +25,10 @@ export default (state = INITIAL_STATE, action) => {
 				...state,
 				tareas: action.payload,
 				cargando: false,
-				error: ''
+				error: '',
+                regresar: false,
+                usuario_id: "",
+                titulo: "",
 			};
 
 		case CARGANDO:
@@ -44,7 +48,8 @@ export default (state = INITIAL_STATE, action) => {
 				...state,
 				tareas: {},
 				cargando: false,
-				error: ''
+				error: '',
+                regresar: true
 			};
 
 		default: return state;

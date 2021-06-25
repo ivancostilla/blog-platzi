@@ -81,6 +81,7 @@ export const agregar = (nueva_tarea) => async (dispatch) => {
 
     try {
         const respuesta = await axios.post('https://jsonplaceholder.typicode.com/todos', nueva_tarea);
+        console.log(respuesta)
         dispatch({
             type: AGREGADA
         });
