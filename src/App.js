@@ -7,10 +7,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Menu from './components/Menu';
 import Publicaciones from './components/Publicaciones';
 import Users from './components/Users';
-
-const Tareas = ()=>(
-  <div>Tareas</div>
-)
+import Tareas from './components/Tareas';
 
 const App = () => {
 
