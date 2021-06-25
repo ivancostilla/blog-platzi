@@ -137,3 +137,24 @@ export const cambioCheck = (user_id, tarea_id) => (dispatch, getState) => {
 		payload: actualizadas
 	})
 };
+
+export const eliminar = (tarea_id) => async(dispatch) => {
+    dispatch({
+        type: CARGANDO
+    })
+
+    try {
+        const respuesta = await axios.delete(`https://jsonplaceholder.typicode.com/todos/${tarea_id}`)
+        console.log(respuesta)
+        dispatch({
+            type: TRAER_TODAS,
+            payload: {}
+        })
+    } catch (error) {
+        console.log(error)
+        dispatch({
+            type: ERROR,
+            payload: 'hubo un error'
+        })
+    }
+}
