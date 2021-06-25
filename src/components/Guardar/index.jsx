@@ -11,12 +11,16 @@ class TareasGuardar extends Component {
             match: { params: {user_id, tarea_id} },
             tareas,
             cambioUsuarioId,
-            cambioTitulo
+            cambioTitulo,
+            limpiarForm
         } = this.props
+
         if (user_id && tarea_id) {
             const tarea = tareas[user_id][tarea_id]
             cambioUsuarioId(tarea.userId);
             cambioTitulo(tarea.title)
+        } else {
+            limpiarForm()
         }
     }
 
@@ -35,6 +39,7 @@ class TareasGuardar extends Component {
             agregar,
             editar
         } = this.props;
+
         const nueva_tarea = {
             userId: usuario_id,
             title: titulo,

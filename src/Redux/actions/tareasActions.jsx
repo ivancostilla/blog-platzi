@@ -6,7 +6,8 @@ import {
 	CAMBIO_USUARIO_ID,
 	CAMBIO_TITULO,
     GUARDAR,
-    ACTUALIZAR
+    ACTUALIZAR,
+    LIMPIAR
 } from "../../types/tareasTypes";
 /* 
 dispatch: es el que dispara la llamada
@@ -157,4 +158,10 @@ export const eliminar = (tarea_id) => async(dispatch) => {
             payload: 'hubo un error'
         })
     }
+}
+
+export const limpiarForm = () => (dispatch) => {
+    dispatch({
+        type: LIMPIAR
+    })
 }
