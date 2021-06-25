@@ -5,6 +5,20 @@ import Spinner from '../General/Spinner';
 import Fatal from '../General/Fatal';
 import { Redirect } from 'react-router-dom';
 class TareasGuardar extends Component {
+    
+    componentDidMount() {
+        const {
+            match: { params: {user_id, tarea_id} },
+            tareas,
+            cambioUsuarioId,
+            cambioTitulo
+        } = this.props
+        if (user_id && tarea_id) {
+            const tarea = tareas[user_id][tarea_id]
+            cambioUsuarioId(tarea.userId);
+            cambioTitulo(tarea.title)
+        }
+    }
 
     cambioUsuarioId = (event) => {
         this.props.cambioUsuarioId(event.target.value)
@@ -13,13 +27,31 @@ class TareasGuardar extends Component {
         this.props.cambioTitulo(event.target.value)
     };
     guardar = () => {
-        const { usuario_id, titulo, agregar } = this.props;
+        const {
+            match: { params: {user_id, tarea_id} },
+            tareas,
+            usuario_id,
+            titulo,
+            agregar,
+            editar
+        } = this.props;
         const nueva_tarea = {
             userId: usuario_id,
             title: titulo,
             completed: false
         };
-        agregar(nueva_tarea);
+
+        if (user_id && tarea_id) {
+            const tarea = tareas[user_id][tarea_id];
+            const tarea_editada = {
+                ...nueva_tarea,
+                completed: tarea.completed,
+                id: tarea.id
+            };
+            editar(tarea_editada)
+        } else {
+            agregar(nueva_tarea);
+        }
     };
 
     deshabilitar = () => {

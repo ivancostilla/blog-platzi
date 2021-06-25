@@ -5,7 +5,8 @@ import {
 	ERROR,
 	CAMBIO_USUARIO_ID,
 	CAMBIO_TITULO,
-    AGREGADA
+    GUARDAR,
+    ACTUALIZAR
 } from "../../types/tareasTypes";
 /* 
 dispatch: es el que dispara la llamada
@@ -83,7 +84,7 @@ export const agregar = (nueva_tarea) => async (dispatch) => {
         const respuesta = await axios.post('https://jsonplaceholder.typicode.com/todos', nueva_tarea);
         console.log(respuesta)
         dispatch({
-            type: AGREGADA
+            type: GUARDAR
         });
     }
     catch (error) {
@@ -92,4 +93,47 @@ export const agregar = (nueva_tarea) => async (dispatch) => {
             type: ERROR
         });
     }
+};
+
+export const editar = (tarea_editada) => async (dispatch) => {
+    dispatch({
+        type: CARGANDO
+    });
+
+    try {
+        const respuesta = await axios.put(`https://jsonplaceholder.typicode.com/todos/${tarea_editada.id}`,
+         tarea_editada);
+        console.log(respuesta)
+        dispatch({
+            type: GUARDAR
+        });
+    }
+    catch (error) {
+        console.log(error.message);
+        dispatch({
+            type: ERROR
+        });
+    }
+};
+
+export const cambioCheck = (user_id, tarea_id) => (dispatch, getState) => {
+	const { tareas } = getState().tareasReducer;
+    //inmutabilidad:
+    const seleccionada = tareas[user_id][tarea_id];
+    //lo que se hace acá es entrar 3 niveles en el objeto principal
+    const actualizadas = {
+		...tareas
+	};
+	actualizadas[user_id] = {
+		...tareas[user_id]
+	};
+	actualizadas[user_id][tarea_id] = {
+		...tareas[user_id][tarea_id],
+		completed: !seleccionada.completed
+	}
+
+	dispatch({
+		type: ACTUALIZAR,
+		payload: actualizadas
+	})
 };
