@@ -8,6 +8,7 @@ import Menu from './components/Menu';
 import Publicaciones from './components/Publicaciones';
 import Users from './components/Users';
 import Tareas from './components/Tareas';
+import TareasGuardar from './components/Guardar';
 
 const App = () => {
 
@@ -19,6 +20,7 @@ const App = () => {
         <Route exact path="/" component={ Users }></Route>
         <Route exact path="/tareas" component={ Tareas }></Route>
         <Route exact path="/publicaciones/:key" component={ Publicaciones }></Route>
+        <Route exact path="/tareas/guardar" component={ TareasGuardar }></Route>
       </div>
     </BrowserRouter>
 
