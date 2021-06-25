@@ -11,9 +11,26 @@ export const traerTodas = () => async (dispatch) => {
 	})
 	try {
 		const respuesta = await axios.get('https://jsonplaceholder.typicode.com/todos');
-		dispatch({
+		
+        const tareas = {};
+        /* esto que sigue queda en el objeto como:
+        primero buscamos el id de usuario(...tareas[tar.userID]),
+        depues buscamos y mapeamos cada tarea de cada usuario([tar.id]) */
+        respuesta.data.map((tar) => (
+            //buscamos las tareas por la key userId
+            tareas[tar.userId] = {
+                //le ponemos todo lo q tenga ese userId:
+                ...tareas[tar.userId],
+                //acá vamos agregando tarea a tarea cada vez que pasa el mmap
+                [tar.id]: {
+                    ...tar
+                }
+            }
+        ))
+        
+        dispatch({
 			type: TRAER_TODAS,
-			payload: respuesta.data
+			payload: tareas
 		})
 	} catch (error) {
 		console.log("Error: ", error.message);
