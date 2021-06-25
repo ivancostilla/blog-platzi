@@ -1,7 +1,14 @@
 /* eslint-disable no-undef */
-import { TRAER_TODAS, CARGANDO, ERROR } from "../../types/tareasTypes";
+import {
+	TRAER_TODAS,
+	CARGANDO,
+	ERROR,
+	CAMBIO_USUARIO_ID,
+	CAMBIO_TITULO,
+    AGREGADA
+} from "../../types/tareasTypes";
 
-const INICIAL_STATE = {
+const INITIAL_STATE = {
     tareas: {},
     cargando: false,
     error: "",
@@ -10,39 +17,36 @@ const INICIAL_STATE = {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (state = INICIAL_STATE, action) => {
-    switch (action.type){
-        case TRAER_TODAS:
-            return {
-                ...state,
-                tareas: action.payload,
-                cargando: false,
-                error: ''
-            };
+export default (state = INITIAL_STATE, action) => {
+	switch (action.type) {
+		case TRAER_TODAS:
+			return {
+				...state,
+				tareas: action.payload,
+				cargando: false,
+				error: ''
+			};
 
-        case CARGANDO:
-            return {...state, cargando: true};
+		case CARGANDO:
+			return { ...state, cargando: true };
 
-        case ERROR:
-            return {...state,
-                error: action.payload,
-                cargando: false
-            }
-        
-        case 'cambio_usuario_id':
-            return { ...state, usuario_id: action.payload };
+		case ERROR:
+			return { ...state, error: action.payload, cargando: false };
 
-        case 'cambio_titulo':
-            return { ...state, titulo: action.payload };
+		case CAMBIO_USUARIO_ID:
+			return { ...state, usuario_id: action.payload };
 
-        case 'agregada':
-            return { 
-                ...state, 
-                tareas: {}, 
-                cargando:false, 
-                error: ''
-            };
+		case CAMBIO_TITULO:
+			return { ...state, titulo: action.payload };
 
-        default: return state;
-    }
-}
+		case AGREGADA:
+			return {
+				...state,
+				tareas: {},
+				cargando: false,
+				error: ''
+			};
+
+		default: return state;
+	};
+};

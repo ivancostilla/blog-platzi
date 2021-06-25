@@ -1,77 +1,94 @@
 import axios from "axios";
-import { TRAER_TODAS, CARGANDO, ERROR } from "../../types/tareasTypes";
+import {
+	TRAER_TODAS,
+	CARGANDO,
+	ERROR,
+	CAMBIO_USUARIO_ID,
+	CAMBIO_TITULO,
+    AGREGADA
+} from "../../types/tareasTypes";
 /* 
 dispatch: es el que dispara la llamada
 y va acontactar al reducer paraq que haga el cambio de estado
  */
 //función que retorna otra función:
+// const tareas = {};
+// /* esto que sigue queda en el objeto como:
+        // primero buscamos el id de usuario(...tareas[tar.userID]),
+        // depues buscamos y mapeamos cada tarea de cada usuario([tar.id]) */
+        // respuesta.data.map((tar) => (
+        //     //buscamos las tareas por la key userId
+        //     tareas[tar.userId] = {
+            //         //le ponemos todo lo q tenga ese userId:
+            //         ...tareas[tar.userId],
+        //         //acá vamos agregando tarea a tarea cada vez que pasa el mmap
+        //         [tar.id]: {
+        //             ...tar
+        //         }
+        //     }
+        // ))
+        
 export const traerTodas = () => async (dispatch) => {
-	dispatch({
-		type: CARGANDO,
-	})
-	try {
-		const respuesta = await axios.get('https://jsonplaceholder.typicode.com/todos');
-		
+    dispatch({
+        type: CARGANDO
+    });
+
+    try {
+        const respuesta = await axios.get('https://jsonplaceholder.typicode.com/todos');
+        
         const tareas = {};
-        /* esto que sigue queda en el objeto como:
-        primero buscamos el id de usuario(...tareas[tar.userID]),
-        depues buscamos y mapeamos cada tarea de cada usuario([tar.id]) */
         respuesta.data.map((tar) => (
-            //buscamos las tareas por la key userId
             tareas[tar.userId] = {
-                //le ponemos todo lo q tenga ese userId:
                 ...tareas[tar.userId],
-                //acá vamos agregando tarea a tarea cada vez que pasa el mmap
                 [tar.id]: {
                     ...tar
                 }
             }
-        ))
-        
+        ));
+
         dispatch({
-			type: TRAER_TODAS,
-			payload: tareas
-		})
-	} catch (error) {
-		console.log("Error: ", error.message);
-		dispatch({
-			type: ERROR,
-			payload: 'Información de tareas no disponible.',
-		})
-	}
+            type: TRAER_TODAS,
+            payload: tareas
+        })
+    }
+    catch (error) {
+        console.log(error.message);
+        dispatch({
+            type: ERROR,
+            payload: 'Tareas no disponibles.'
+        })
+    }
 };
 
-export const cambioUsuarioId = (usuario_id) => (dispatch) => {
+export const cambioUsuarioId = (valor) => (dispatch) => {
     dispatch({
-        type: 'cambio_usuario_id',
-        payload: usuario_id
+        type: CAMBIO_USUARIO_ID,
+        payload: valor
     })
-}
+};
 
-export const cambioTitulo = (titulo) => (dispatch) => {
+export const cambioTitulo = (valor) => (dispatch) => {
     dispatch({
-        type: 'cambio_titulo',
-        payload: titulo
+        type: CAMBIO_TITULO,
+        payload: valor
     })
-}
+};
 
 export const agregar = (nueva_tarea) => async (dispatch) => {
     dispatch({
         type: CARGANDO
-    })
+    });
 
     try {
-        const respuesta = await axios.post('https://jsonplaceholder.typicode.com/todos',
-        nueva_tarea);
-        console.log(respuesta)
+        const respuesta = await axios.post('https://jsonplaceholder.typicode.com/todos', nueva_tarea);
         dispatch({
-            type: 'agregada'
-        })
-    } catch (error) {
-        console.log(error);
-        dispatch({
-            type: ERROR,
-            payload: 'Intente mas tarde'
-        })
+            type: AGREGADA
+        });
     }
-}
+    catch (error) {
+        console.log(error.message);
+        dispatch({
+            type: ERROR
+        });
+    }
+};
